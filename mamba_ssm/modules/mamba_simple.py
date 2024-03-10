@@ -186,6 +186,16 @@ class Mamba(nn.Module):
             B = rearrange(B, "(b l) dstate -> b dstate l", l=seqlen).contiguous()
             C = rearrange(C, "(b l) dstate -> b dstate l", l=seqlen).contiguous()
             assert self.activation in ["silu", "swish"]
+            print(x.shape)
+            print(x)
+            print(A.shape)
+            print(A)
+            print(B.shape)
+            print(B)
+            print(C.shape)
+            print(C)
+            print(self.D.float().shape)
+            print(self.D.float())
             y = selective_scan_fn(
                 x,
                 dt,
@@ -198,6 +208,8 @@ class Mamba(nn.Module):
                 delta_softplus=True,
                 return_last_state=ssm_state is not None,
             )
+            print(y.shape)
+            print(y)
             if ssm_state is not None:
                 y, last_state = y
                 ssm_state.copy_(last_state)
